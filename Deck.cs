@@ -10,25 +10,50 @@ namespace Kristiania.PG3302_1.CustomCardGame
     {
         private List<Card> _deck;
 
-
-
         public Deck()
         {
             FillDeck();
+            SetSpecialCards();
+            PrintDeck();
 
+        }
 
+        private void SetSpecialCards()
+        {
+            if (_deck != null)
+            {
+                Random random = new Random();
+                List<int> deckIndexes = new List<int>();
+                int[] specialCards = new int[4];
+
+                for (int i = 0; i < _deck.Count; i++)
+                {
+                    deckIndexes.Add(i);
+                }
+
+                for (int k = 0; k < specialCards.Length; k++)
+                {
+                    int randomIndex = random.Next(deckIndexes.Count);
+                    specialCards[k] = deckIndexes[randomIndex];
+                    deckIndexes.RemoveAt(randomIndex);
+                }
+
+                _deck[specialCards[0]].Type = CardType.Bomb;
+                _deck[specialCards[1]].Type = CardType.Vulture;
+                _deck[specialCards[2]].Type = CardType.Quarantine;
+                _deck[specialCards[3]].Type = CardType.Joker;
+            }
         }
 
         private void FillDeck()
         {
             this._deck = new List<Card>();
-            List<int> specialCardPicker = new List<int>();
+            
 
             for (int j = 0; j < 4; j++)
             {
                 for (int k = 0; k < 13; k++)
                 {
-                    Console.WriteLine("Countto52:" + (k + 1 + (j * 13)));
                     CardSuit cSuit;
                     switch (j)
                     {
@@ -50,6 +75,8 @@ namespace Kristiania.PG3302_1.CustomCardGame
                 }
 
             }
+
+
         }
 
         public void PrintDeck()
@@ -60,12 +87,6 @@ namespace Kristiania.PG3302_1.CustomCardGame
             }
         }
     }                
-
-
-
-                    //_deck.Add(new Card());
-                    //specialCardPicker.Add(j);
-   
 
 
                 // Adding 4 unique index values to array (special cards)

@@ -7,7 +7,6 @@ namespace Kristiania.PG3302_1.CustomCardGame
         static void Main(string[] args)
         {
             Deck deck = new Deck();
-            deck.PrintDeck();
         }
     }
 }
