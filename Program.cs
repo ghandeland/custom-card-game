@@ -6,7 +6,7 @@ namespace Kristiania.PG3302_1.CustomCardGame
     {
         static void Main(string[] args)
         {
-            Console.WriteLine("Hello World!");
+            Deck tiss = new Deck();
         }
     }
 }
