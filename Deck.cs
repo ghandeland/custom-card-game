@@ -8,25 +8,24 @@ namespace Kristiania.PG3302_1.CustomCardGame
 {
     class Deck
     {
-        private List<Card> _deck;
+        public List<Card> DeckList { get; set; }
 
         public Deck()
         {
-            FillDeck();
+            DeckList = FillDeck();
             SetSpecialCards();
             PrintDeck();
-
         }
 
         private void SetSpecialCards()
         {
-            if (_deck != null)
+            if (DeckList != null)
             {
                 Random random = new Random();
                 List<int> deckIndexes = new List<int>();
                 int[] specialCards = new int[4];
 
-                for (int i = 0; i < _deck.Count; i++)
+                for (int i = 0; i < DeckList.Count; i++)
                 {
                     deckIndexes.Add(i);
                 }
@@ -38,16 +37,16 @@ namespace Kristiania.PG3302_1.CustomCardGame
                     deckIndexes.RemoveAt(randomIndex);
                 }
 
-                _deck[specialCards[0]].Type = CardType.Bomb;
-                _deck[specialCards[1]].Type = CardType.Vulture;
-                _deck[specialCards[2]].Type = CardType.Quarantine;
-                _deck[specialCards[3]].Type = CardType.Joker;
+                DeckList[specialCards[0]].Type = CardType.Bomb;
+                DeckList[specialCards[1]].Type = CardType.Vulture;
+                DeckList[specialCards[2]].Type = CardType.Quarantine;
+                DeckList[specialCards[3]].Type = CardType.Joker;
             }
         }
 
-        private void FillDeck()
+        private List<Card> FillDeck()
         {
-            this._deck = new List<Card>();
+            List<Card> Deck = new List<Card>();
             
 
             for (int j = 0; j < 4; j++)
@@ -70,18 +69,19 @@ namespace Kristiania.PG3302_1.CustomCardGame
                             cSuit = CardSuit.Spades;
                             break;
                     }
-                    _deck.Add(new Card((k + 1), cSuit, CardType.Normal));
+                    Deck.Add(new Card((k + 1), cSuit, CardType.Normal));
 
                 }
 
             }
 
+            return Deck;
 
         }
 
         public void PrintDeck()
         {
-            foreach (Card card in _deck)
+            foreach (Card card in DeckList)
             {
                 card.PrintCardInfo();
             }
