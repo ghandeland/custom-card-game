@@ -6,17 +6,14 @@ namespace Kristiania.PG3302_1.CustomCardGame
     {
         static void Main(string[] args)
         {
-            Random random = new Random();
             Deck deck = new Deck();
-            Player player1 = new Player(1, null);
-            Console.WriteLine("Amounts of cards in deck " + deck.DeckList.Count);
-            int rndCardIndex = random.Next(deck.DeckList.Count);
-            Card rndCard = deck.DeckList[rndCardIndex];
-            player1.Hand.Add(rndCard);
-            Console.WriteLine("Amounts of cards in deck " + deck.DeckList.Count);
-            Console.WriteLine("Player1 draws a: ");
-            player1.Hand[0].PrintCardInfo();
-            deck.DeckList.RemoveAt(rndCardIndex);
+            Dealer dealer = new Dealer(deck);
+            Player player1 = new Player(1, dealer);
+            Player player2 = new Player(2, dealer);
+            player1.Start();
+            player2.Start();
+
+
         }
     }
 }
