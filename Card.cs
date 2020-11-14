@@ -43,9 +43,6 @@ namespace Kristiania.PG3302_1.CustomCardGame
 
     }
 
-    
-
-
     enum CardType
     {
         Normal,

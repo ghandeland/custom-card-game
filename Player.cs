@@ -4,6 +4,7 @@ using System.Diagnostics;
 using System.Text;
 using System.Text.Json;
 using System.Threading;
+using Kristiania.PG3302_1.CustomCardGame.CardStrategy;
 using Newtonsoft.Json;
 
 namespace Kristiania.PG3302_1.CustomCardGame
@@ -28,10 +29,14 @@ namespace Kristiania.PG3302_1.CustomCardGame
             while (true)
             {
                 string jsonCard = _dealer.DealCard();
-                Thread.Sleep(1000);
+                Thread.Sleep(300);
                 Card card = Card.DeserializeCard(jsonCard);
-                Hand.Add(card);
-                Console.WriteLine($"Player{Id} drew card {card.getCardInfo()}");
+
+                CardHandler cardHandler = StratFactory.CreateHandler(card);
+                cardHandler.Handle(this);
+
+                Console.WriteLine("DrawCard()");
+                
             }
         }
 
@@ -44,5 +49,4 @@ namespace Kristiania.PG3302_1.CustomCardGame
 
 
     }
-
 }
