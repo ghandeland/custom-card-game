@@ -34,10 +34,37 @@ namespace Kristiania.PG3302_1.CustomCardGame
 
                 CardHandler cardHandler = StratFactory.CreateHandler(card);
                 cardHandler.Handle(this);
+                if (HasFourOfTheSameSuit())
+                {
+                    Console.WriteLine("*****************************");
+                }
 
                 Console.WriteLine("DrawCard()");
                 
             }
+               
+        }
+
+        private bool HasFourOfTheSameSuit()
+        {
+
+            var SuitCount = new Dictionary<CardSuit, int>();
+
+            foreach (var card in Hand)
+            {
+                if (SuitCount.ContainsKey(card.Suit))
+                    SuitCount[card.Suit]++;
+                else
+                    SuitCount[card.Suit] = 1;
+            }
+
+            foreach (var pair in SuitCount) {
+                if (pair.Value > 3)
+                {
+                    return true;
+                }
+            }
+            return false;
         }
 
         public void Start()
