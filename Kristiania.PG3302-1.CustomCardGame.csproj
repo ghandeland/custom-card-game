@@ -6,4 +6,8 @@
     <RootNamespace>Kristiania.PG3302_1.CustomCardGame</RootNamespace>
   </PropertyGroup>
 
+  <ItemGroup>
+    <PackageReference Include="Newtonsoft.Json" Version="12.0.3" />
+  </ItemGroup>
+
 </Project>

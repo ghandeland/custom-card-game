@@ -1,15 +1,17 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Net.Security;
+using System.Reflection.Metadata.Ecma335;
 using System.Text;
+using Newtonsoft.Json;
 
 namespace Kristiania.PG3302_1.CustomCardGame
 {
     class Card
     {
 
-        public int Value { get; private set; }
-        public CardSuit Suit { get; private set; }
+        public int Value { get; set; }
+        public CardSuit Suit { get; set; }
         public CardType Type { get; set; }
 
         public Card(int value, CardSuit suit, CardType type)
@@ -19,11 +21,29 @@ namespace Kristiania.PG3302_1.CustomCardGame
             this.Type = type;
         }
 
-        public void PrintCardInfo()
+        public Card() { }
+
+        public string getCardInfo()
         {
-            Console.WriteLine(this.Value + " of " + this.Suit.ToString() + " Type: " + this.Type.ToString());
+            return(this.Value + " of " + this.Suit.ToString() + " Type: " + this.Type.ToString());
         }
+        public static string serializeCard(Card card)
+        {
+            return JsonConvert.SerializeObject(card);
+        }
+
+        public static Card DeserializeCard(string jsonCard)
+        {
+            Card card = JsonConvert.DeserializeObject<Card>(jsonCard);
+
+            return card;
+        }
+
+
+
     }
+
+    
 
 
     enum CardType
