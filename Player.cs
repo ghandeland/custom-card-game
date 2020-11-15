@@ -50,6 +50,7 @@ namespace Kristiania.PG3302_1.CustomCardGame
                 }
 
                 DiscardCard();
+
             }
         }
 
