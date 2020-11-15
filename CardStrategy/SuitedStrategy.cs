@@ -6,7 +6,7 @@ namespace Kristiania.PG3302_1.CustomCardGame.CardStrategy
 {
     class SuitedStrategy : CardStrategy
     {
-        public SuitedStrategy(ICard card) : base(card)
+        public SuitedStrategy(SuitedCard card) : base(card)
         {
             Card = card;
         }

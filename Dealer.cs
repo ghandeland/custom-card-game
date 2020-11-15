@@ -30,7 +30,6 @@ namespace Kristiania.PG3302_1.CustomCardGame
                 int randomIndex = _random.Next(_deck.DeckList.Count);
                 ICard cardToDeal = SerializeCardObj(_deck.DeckList[randomIndex]);
                 _deck.DeckList.RemoveAt(randomIndex);
-                cardToDeal.getCardInfo();
                 return cardToDeal;
             }
         }
@@ -38,6 +37,7 @@ namespace Kristiania.PG3302_1.CustomCardGame
         private ICard SerializeCardObj(ICard card)
         {
             string cardToJson = JsonConvert.SerializeObject(card);
+            Console.WriteLine(cardToJson);
             if (card.GetType() == typeof(SuitedCard))
             {
                 SuitedCard cardToDeal = JsonConvert.DeserializeObject<SuitedCard>(cardToJson);
@@ -50,7 +50,6 @@ namespace Kristiania.PG3302_1.CustomCardGame
             }
              
         }
-
 
         public ICard DealSuitedCard()
         {

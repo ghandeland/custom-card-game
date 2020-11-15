@@ -15,7 +15,7 @@ namespace Kristiania.PG3302_1.CustomCardGame.specialCardStrategy
         public override void HandleCard(Player player)
         {
             player.Hand.Add(Card);
-            Console.WriteLine($"Player{player.Id} drew JOKER {Card.getCardInfo()}");
+            Console.WriteLine($"Player{player.Id} drew {Card.getCardInfo()}");
         }
     }
 }

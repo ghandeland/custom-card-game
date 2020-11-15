@@ -15,7 +15,9 @@ namespace Kristiania.PG3302_1.CustomCardGame.specialCardStrategy
         public override void HandleCard(Player player)
         {
             player.Hand.Add(Card);
-            Console.WriteLine($"Player{player.Id} drew QUARANTINE {Card.getCardInfo()}");
+            player.Quarantine = true;
+            Console.WriteLine($"Player{player.Id} drew {Card.getCardInfo()}!");
+            
         }
     }
 }

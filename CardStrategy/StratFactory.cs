@@ -12,7 +12,7 @@ namespace Kristiania.PG3302_1.CustomCardGame.CardStrategy
             if (card.GetType() == typeof(SuitedCard))
             {
                 SuitedCard suitedCard = (SuitedCard) card;
-                return new CardHandler(new SuitedStrategy(card));
+                return new CardHandler(new SuitedStrategy(suitedCard));
             }
             else
             {

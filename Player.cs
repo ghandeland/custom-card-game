@@ -16,6 +16,7 @@ namespace Kristiania.PG3302_1.CustomCardGame
         public List<ICard> Hand { get; set; }
         private Thread _playerThread;
         private Dealer _dealer;
+        public bool Quarantine { get; set; }
 
         public Player(int id, Dealer dealer)
         {
@@ -23,6 +24,7 @@ namespace Kristiania.PG3302_1.CustomCardGame
             _playerThread = new Thread(DrawCard);
             _dealer = dealer;
             Hand = new List<ICard>();
+            Quarantine = false;
         }
 
         private void DrawCard()
@@ -30,6 +32,14 @@ namespace Kristiania.PG3302_1.CustomCardGame
             while (true)
             {
                 ICard card = _dealer.DealCard();
+
+                if (Quarantine)
+                {
+                    Quarantine = false;
+                    Console.WriteLine($"Player{Id} had to skip a turn:(");
+                    return;
+                }
+
                 Thread.Sleep(300);
 
                 CardHandler cardHandler = StratFactory.CreateHandler(card);
