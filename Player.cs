@@ -75,9 +75,10 @@ namespace Kristiania.PG3302_1.CustomCardGame
                 }
             }
 
-            List<CardSuit> keys = new List<CardSuit>(SuitCount.Keys);
+           
             if (hasJoker)
             {
+                List<CardSuit> keys = new List<CardSuit>(SuitCount.Keys);
                 foreach (var key in keys)
                 {
                     SuitCount[key]++;
