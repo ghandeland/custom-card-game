@@ -7,21 +7,29 @@ namespace Kristiania.PG3302_1.CustomCardGame.CardStrategy
 {
     class StratFactory
     {
-        public static CardHandler CreateHandler(Card card)
+        public static CardHandler CreateHandler(ICard card)
         {
-            switch (card.Type)
+            if (card.GetType() == typeof(SuitedCard))
             {
-                case CardType.Bomb:
-                    return new CardHandler(new BombStrategy(card));
-                case CardType.Quarantine:
-                    return new CardHandler(new QuarantineStrategy(card));
-                case CardType.Joker:
-                    return new CardHandler(new JokerStrategy(card));
-                case CardType.Vulture:
-                    return new CardHandler(new VultureStrategy(card));
-                default:
-                    return new CardHandler(new NormalStrategy(card));
+                SuitedCard suitedCard = (SuitedCard) card;
+                return new CardHandler(new SuitedStrategy(card));
             }
+            else
+            {
+                SpecialCard specialCard = (SpecialCard) card;
+                switch(specialCard.Type) {
+                    case SpecialCardType.Quarantine:
+                        return new CardHandler(new QuarantineStrategy(specialCard));
+                    case SpecialCardType.Joker:
+                        return new CardHandler(new JokerStrategy(specialCard));
+                    case SpecialCardType.Vulture:
+                        return new CardHandler(new VultureStrategy(specialCard));
+                    default:
+                        return new CardHandler(new BombStrategy(specialCard));
+                }
+            }
+
+            
         }
     }
 }

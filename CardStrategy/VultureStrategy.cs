@@ -7,7 +7,7 @@ namespace Kristiania.PG3302_1.CustomCardGame.specialCardStrategy
 {
     class VultureStrategy : CardStrategy.CardStrategy
     {
-        public VultureStrategy(Card card) : base(card)
+        public VultureStrategy(SpecialCard card) : base(card)
         {
             Card = card;
         }

@@ -7,7 +7,7 @@ namespace Kristiania.PG3302_1.CustomCardGame.specialCardStrategy
 {
     class JokerStrategy : CardStrategy.CardStrategy
     {
-        public JokerStrategy(Card card) : base(card)
+        public JokerStrategy(ICard card) : base(card)
         {
             Card = card;
         }

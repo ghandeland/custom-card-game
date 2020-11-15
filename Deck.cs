@@ -8,7 +8,7 @@ namespace Kristiania.PG3302_1.CustomCardGame
 {
     class Deck
     {
-        public List<Card> DeckList { get; set; }
+        public List<ICard> DeckList { get; set; }
 
         public Deck()
         {
@@ -37,16 +37,16 @@ namespace Kristiania.PG3302_1.CustomCardGame
                     deckIndexes.RemoveAt(randomIndex);
                 }
 
-                DeckList[specialCards[0]].Type = CardType.Bomb;
-                DeckList[specialCards[1]].Type = CardType.Vulture;
-                DeckList[specialCards[2]].Type = CardType.Quarantine;
-                DeckList[specialCards[3]].Type = CardType.Joker;
+                DeckList[specialCards[0]] = new SpecialCard(SpecialCardType.Bomb);
+                DeckList[specialCards[1]] = new SpecialCard(SpecialCardType.Vulture);
+                DeckList[specialCards[2]] = new SpecialCard(SpecialCardType.Quarantine);
+                DeckList[specialCards[3]] = new SpecialCard(SpecialCardType.Joker);
             }
         }
 
-        private List<Card> FillDeck()
+        private List<ICard> FillDeck()
         {
-            List<Card> Deck = new List<Card>();
+            List<ICard> Deck = new List<ICard>();
             
 
             for (int j = 0; j < 4; j++)
@@ -69,7 +69,7 @@ namespace Kristiania.PG3302_1.CustomCardGame
                             cSuit = CardSuit.Spades;
                             break;
                     }
-                    Deck.Add(new Card((k + 1), cSuit, CardType.Normal));
+                    Deck.Add(new SuitedCard((k + 1), cSuit));
 
                 }
 
@@ -81,7 +81,7 @@ namespace Kristiania.PG3302_1.CustomCardGame
 
         public void PrintDeck()
         {
-            foreach (Card card in DeckList)
+            foreach (SuitedCard card in DeckList)
             {
                 Console.WriteLine(card.getCardInfo());
             }

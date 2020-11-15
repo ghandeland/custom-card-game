@@ -4,9 +4,9 @@ using System.Text;
 
 namespace Kristiania.PG3302_1.CustomCardGame.CardStrategy
 {
-    class NormalStrategy : CardStrategy
+    class SuitedStrategy : CardStrategy
     {
-        public NormalStrategy(Card card) : base(card)
+        public SuitedStrategy(ICard card) : base(card)
         {
             Card = card;
         }

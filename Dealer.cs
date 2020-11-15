@@ -18,7 +18,7 @@ namespace Kristiania.PG3302_1.CustomCardGame
             _random = new Random();
         }
 
-        public string DealCard()
+        public ICard DealCard()
         {
             lock (_deckLock)
             {
@@ -28,15 +28,31 @@ namespace Kristiania.PG3302_1.CustomCardGame
                 }
 
                 int randomIndex = _random.Next(_deck.DeckList.Count);
-                Card drawnCard = _deck.DeckList[randomIndex];
-                string cardToJson = Card.serializeCard(drawnCard);
+                ICard cardToDeal = SerializeCardObj(_deck.DeckList[randomIndex]);
                 _deck.DeckList.RemoveAt(randomIndex);
-                return cardToJson;
+                cardToDeal.getCardInfo();
+                return cardToDeal;
             }
         }
 
+        private ICard SerializeCardObj(ICard card)
+        {
+            string cardToJson = JsonConvert.SerializeObject(card);
+            if (card.GetType() == typeof(SuitedCard))
+            {
+                SuitedCard cardToDeal = JsonConvert.DeserializeObject<SuitedCard>(cardToJson);
+                return cardToDeal;
+            }
+            else
+            {
+                SpecialCard cardToDeal = JsonConvert.DeserializeObject<SpecialCard>(cardToJson);
+                return cardToDeal;
+            }
+             
+        }
 
-        public string DealNormalCard()
+
+        public ICard DealSuitedCard()
         {
             // Maybe a separate class for special cards with method amountOfSpecialCards() to place here?
             if (_deck.DeckList.Count < 5)
@@ -44,23 +60,25 @@ namespace Kristiania.PG3302_1.CustomCardGame
                 return null;
             }
 
-            String cardToJson = "";
             Boolean normalCardDrawn = false;
 
             while (!normalCardDrawn)
             {
                 int index = _random.Next(_deck.DeckList.Count);
-                Card drawnCard = _deck.DeckList[index];
+                ICard drawnCard = _deck.DeckList[index];
 
-                if (drawnCard.Type.Equals(CardType.Normal))
+                if (drawnCard.GetType() == typeof(SuitedCard))
                 {
-                    cardToJson = Card.serializeCard(drawnCard);
+                    ICard cardToDeal = SerializeCardObj(drawnCard);
                     _deck.DeckList.RemoveAt(index);
                     normalCardDrawn = true;
+                    return cardToDeal;
                 }
             }
-            return cardToJson;
+            return null;
         }
+
+
 
 
     }

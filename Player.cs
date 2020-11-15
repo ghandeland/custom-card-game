@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.Linq;
 using System.Text;
 using System.Text.Json;
 using System.Threading;
@@ -12,7 +13,7 @@ namespace Kristiania.PG3302_1.CustomCardGame
     class Player
     {
         public int Id { get; set; }
-        public List<Card> Hand { get; set; }
+        public List<ICard> Hand { get; set; }
         private Thread _playerThread;
         private Dealer _dealer;
 
@@ -21,16 +22,15 @@ namespace Kristiania.PG3302_1.CustomCardGame
             Id = id;
             _playerThread = new Thread(DrawCard);
             _dealer = dealer;
-            Hand = new List<Card>();
+            Hand = new List<ICard>();
         }
 
         private void DrawCard()
         {
             while (true)
             {
-                string jsonCard = _dealer.DealCard();
+                ICard card = _dealer.DealCard();
                 Thread.Sleep(300);
-                Card card = Card.DeserializeCard(jsonCard);
 
                 CardHandler cardHandler = StratFactory.CreateHandler(card);
                 cardHandler.Handle(this);
@@ -39,23 +39,39 @@ namespace Kristiania.PG3302_1.CustomCardGame
                     Console.WriteLine("*****************************");
                 }
 
-                Console.WriteLine("DrawCard()");
-                
             }
-               
         }
 
         private bool HasFourOfTheSameSuit()
         {
-
             var SuitCount = new Dictionary<CardSuit, int>();
+            bool hasJoker = false;
 
-            foreach (var card in Hand)
+            foreach (ICard card in Hand)
             {
-                if (SuitCount.ContainsKey(card.Suit))
-                    SuitCount[card.Suit]++;
+                if (card.GetType() == typeof(SuitedCard))
+                {
+                    SuitedCard suited = (SuitedCard) card;
+
+                    if (SuitCount.ContainsKey(suited.Suit))
+                        SuitCount[suited.Suit]++;
+                    else
+                        SuitCount[suited.Suit] = 1;
+                }
                 else
-                    SuitCount[card.Suit] = 1;
+                {
+                    SpecialCard special = (SpecialCard) card;
+                    if (special.Type == SpecialCardType.Joker) hasJoker = true;
+                }
+            }
+
+            List<CardSuit> keys = new List<CardSuit>(SuitCount.Keys);
+            if (hasJoker)
+            {
+                foreach (var key in keys)
+                {
+                    SuitCount[key]++;
+                }
             }
 
             foreach (var pair in SuitCount) {
@@ -64,6 +80,7 @@ namespace Kristiania.PG3302_1.CustomCardGame
                     return true;
                 }
             }
+
             return false;
         }
 
@@ -71,9 +88,6 @@ namespace Kristiania.PG3302_1.CustomCardGame
         {
             _playerThread.Start();
         }
-
-
-
 
     }
 }

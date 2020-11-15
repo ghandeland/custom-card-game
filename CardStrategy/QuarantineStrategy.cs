@@ -7,7 +7,7 @@ namespace Kristiania.PG3302_1.CustomCardGame.specialCardStrategy
 {
     class QuarantineStrategy : CardStrategy.CardStrategy
     {
-        public QuarantineStrategy(Card card) : base(card)
+        public QuarantineStrategy(SpecialCard card) : base(card)
         {
             Card = card;
         }

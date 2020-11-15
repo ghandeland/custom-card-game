@@ -7,7 +7,7 @@ namespace Kristiania.PG3302_1.CustomCardGame.specialCardStrategy
 {
     class BombStrategy : CardStrategy.CardStrategy
     {
-        public BombStrategy(Card card) : base(card)
+        public BombStrategy(SpecialCard card) : base(card)
         {
             Card = card;
         }

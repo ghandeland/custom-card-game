@@ -6,6 +6,6 @@ namespace Kristiania.PG3302_1.CustomCardGame
 {
     interface ICard
     {
-
+        string getCardInfo();
     }
 }

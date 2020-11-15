@@ -6,9 +6,9 @@ namespace Kristiania.PG3302_1.CustomCardGame.CardStrategy
 {
     abstract class CardStrategy
     {
-        protected Card Card;
+        protected ICard Card;
 
-        public CardStrategy(Card card)
+        public CardStrategy(ICard card)
         {
             this.Card = card;
         }
