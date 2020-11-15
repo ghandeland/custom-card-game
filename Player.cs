@@ -49,7 +49,19 @@ namespace Kristiania.PG3302_1.CustomCardGame
                     Console.WriteLine("*****************************");
                 }
 
+                DiscardCard();
             }
+        }
+
+        private void DiscardCard()
+        {
+            ICard beforeDiscard = Hand[0];
+            Console.WriteLine("before discard" + beforeDiscard);
+            beforeDiscard.getCardInfo();
+            _dealer.receiveDiscardedCard(beforeDiscard);
+            Console.WriteLine("after discard" + beforeDiscard);
+            beforeDiscard.getCardInfo();
+           
         }
 
         private bool HasFourOfTheSameSuit()
@@ -75,10 +87,9 @@ namespace Kristiania.PG3302_1.CustomCardGame
                 }
             }
 
-           
+            List<CardSuit> keys = new List<CardSuit>(SuitCount.Keys);
             if (hasJoker)
             {
-                List<CardSuit> keys = new List<CardSuit>(SuitCount.Keys);
                 foreach (var key in keys)
                 {
                     SuitCount[key]++;

@@ -87,6 +87,13 @@ namespace Kristiania.PG3302_1.CustomCardGame
             }
         }
 
+        public void ReceiveDiscardedDeck(List<ICard> discardDeck)
+        {
+            foreach (ICard card in discardDeck)
+            {
+                DeckList.Add(card);
+            }
+        }
     }                
 
 }

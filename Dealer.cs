@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Runtime.CompilerServices;
 using System.Text;
 using System.Text.Json;
 using Newtonsoft.Json;
@@ -11,13 +12,13 @@ namespace Kristiania.PG3302_1.CustomCardGame
         private Object _deckLock = new Object();
         private Deck _deck;
         private Random _random;
-
+        private List<ICard> _discard;
         public Dealer(Deck deck)
         {
             _deck = deck;
             _random = new Random();
         }
-
+        
         public ICard DealCard()
         {
             lock (_deckLock)
@@ -76,7 +77,11 @@ namespace Kristiania.PG3302_1.CustomCardGame
             return null;
         }
 
-
+        public void receiveDiscardedCard(ICard card)
+        {
+            var newCardObj = SerializeCardObj(card);
+            _discard.Add(newCardObj);
+        }
 
 
     }
