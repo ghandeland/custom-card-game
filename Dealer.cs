@@ -27,7 +27,6 @@ namespace Kristiania.PG3302_1.CustomCardGame
                 if (_deck.DeckList.Count < 5)
                 {
                     moveDiscardDeckToNormalDeck();
-                    Console.WriteLine("*************MOVEDISCARDDECKTONORMALDECK");
                 }
 
                 int randomIndex = _random.Next(_deck.DeckList.Count);

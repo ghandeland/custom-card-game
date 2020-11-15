@@ -44,7 +44,9 @@ namespace Kristiania.PG3302_1.CustomCardGame
                         Console.WriteLine("*****************************");
                     }
                     Console.WriteLine($"Played{Id} cards on hand count {Hand.Count}");
-                    DiscardCard();
+
+                    DiscardCard(CardToDiscard());
+
                 } else
                 {
                         Quarantine = false;
@@ -56,11 +58,24 @@ namespace Kristiania.PG3302_1.CustomCardGame
             }
         }
 
-        public void DiscardCard()
+        public void DiscardCard(ICard card)
         {
-            ICard beforeDiscard = Hand[0];
-            _dealer.receiveDiscardedCard(beforeDiscard);
-            Hand.RemoveAt(0);
+            int index = -1;
+            for (int i = 0; i < Hand.Count; i++)
+            {
+                if (card.Equals(Hand[i]))
+                {
+                    index = i;
+                }
+            }
+            if(index > -1)
+            {
+                ICard beforeDiscard = Hand[index];
+                _dealer.receiveDiscardedCard(beforeDiscard);
+                Console.WriteLine($"Player{Id} discarded {beforeDiscard.getCardInfo()}");
+                Hand.RemoveAt(index);
+            } 
+            
        
         }
 
@@ -104,6 +119,56 @@ namespace Kristiania.PG3302_1.CustomCardGame
             }
 
             return false;
+        }
+
+        public ICard CardToDiscard()
+        {
+            ICard discardCard = new NullCard();
+
+            var SuitCount = new Dictionary<CardSuit, int>();
+
+            foreach (ICard card in Hand)
+            {
+                if (card.GetType() == typeof(SuitedCard))
+                {
+                    SuitedCard suited = (SuitedCard)card;
+
+                    if (SuitCount.ContainsKey(suited.Suit))
+                        SuitCount[suited.Suit]++;
+                    else
+                        SuitCount[suited.Suit] = 1;
+                }
+            }
+
+            List<CardSuit> keys = new List<CardSuit>(SuitCount.Keys);
+            int lowestCount = 7;
+            CardSuit lowestSuit = CardSuit.Spades;
+            
+            foreach (CardSuit key in keys)
+            {
+                if (SuitCount[key] <= lowestCount)
+                {
+                    lowestCount = SuitCount[key];
+                    lowestSuit = key;
+                }
+            }
+
+            foreach(ICard card in Hand)
+            {
+                if(card.GetType() == typeof(SuitedCard))
+                {
+                    SuitedCard sCard = (SuitedCard) card;
+                    if(sCard.Suit.Equals(lowestSuit))
+                    {
+                        discardCard = card;
+                    }
+                }
+                
+            }
+
+   
+
+            return discardCard;
         }
 
         public void Start()
