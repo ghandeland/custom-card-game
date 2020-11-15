@@ -7,7 +7,7 @@ using Newtonsoft.Json;
 
 namespace Kristiania.PG3302_1.CustomCardGame
 {
-    class SuitedCard : ICard
+    public class SuitedCard : ICard
     {
 
         public int Value { get; set; }
@@ -42,7 +42,7 @@ namespace Kristiania.PG3302_1.CustomCardGame
 
     }
 
-    enum CardSuit
+    public enum CardSuit
     {
         Hearts,
         Spades,

@@ -10,7 +10,7 @@ using Newtonsoft.Json;
 
 namespace Kristiania.PG3302_1.CustomCardGame
 {
-    class Player
+    public class Player
     {
         public int Id { get; set; }
         public List<ICard> Hand { get; set; }
@@ -53,15 +53,12 @@ namespace Kristiania.PG3302_1.CustomCardGame
             }
         }
 
-        private void DiscardCard()
+        public void DiscardCard()
         {
             ICard beforeDiscard = Hand[0];
-            Console.WriteLine("before discard" + beforeDiscard);
-            beforeDiscard.getCardInfo();
             _dealer.receiveDiscardedCard(beforeDiscard);
-            Console.WriteLine("after discard" + beforeDiscard);
-            beforeDiscard.getCardInfo();
-           
+            Hand.RemoveAt(0);
+       
         }
 
         private bool HasFourOfTheSameSuit()

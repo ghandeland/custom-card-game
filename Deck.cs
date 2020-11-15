@@ -6,7 +6,7 @@ using System.Text;
 
 namespace Kristiania.PG3302_1.CustomCardGame
 {
-    class Deck
+    public class Deck
     {
         public List<ICard> DeckList { get; set; }
 
@@ -94,6 +94,8 @@ namespace Kristiania.PG3302_1.CustomCardGame
                 DeckList.Add(card);
             }
         }
+
+        
     }                
 
 }

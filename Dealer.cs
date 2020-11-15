@@ -7,7 +7,7 @@ using Newtonsoft.Json;
 
 namespace Kristiania.PG3302_1.CustomCardGame
 {
-    class Dealer
+    public class Dealer
     {
         private Object _deckLock = new Object();
         private Deck _deck;
@@ -17,14 +17,16 @@ namespace Kristiania.PG3302_1.CustomCardGame
         {
             _deck = deck;
             _random = new Random();
+            _discard = new List<ICard>();
         }
-        
-        public ICard DealCard()
+
+         public ICard DealCard()
         {
             lock (_deckLock)
             {
                 if (_deck.DeckList.Count < 1)
                 {
+                    throw new IndexOutOfRangeException();
                     return null;
                 }
 
@@ -82,6 +84,21 @@ namespace Kristiania.PG3302_1.CustomCardGame
             var newCardObj = SerializeCardObj(card);
             _discard.Add(newCardObj);
         }
+
+        public void moveDiscardDeckToNormalDeck()
+        {
+            if(_discard.Count < 0) 
+            { 
+            for (int i = 0; i < _discard.Count; i++)
+            {
+                ICard cardToMove = SerializeCardObj(_discard[i]);
+                _deck.DeckList.Add(cardToMove);
+                _discard.RemoveAt(i);
+            }
+            }
+        }
+
+        
 
 
     }

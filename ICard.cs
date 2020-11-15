@@ -4,7 +4,7 @@ using System.Text;
 
 namespace Kristiania.PG3302_1.CustomCardGame
 {
-    interface ICard
+    public interface ICard
     {
         string getCardInfo();
     }

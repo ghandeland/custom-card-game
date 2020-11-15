@@ -5,7 +5,7 @@ using Newtonsoft.Json;
 
 namespace Kristiania.PG3302_1.CustomCardGame
 {
-    class SpecialCard : ICard
+    public class SpecialCard : ICard
     {
         public SpecialCardType Type { get; set; }
 
@@ -22,7 +22,7 @@ namespace Kristiania.PG3302_1.CustomCardGame
         }
     }
 
-    enum SpecialCardType
+    public enum SpecialCardType
     {
         Bomb,
         Vulture,
