@@ -5,8 +5,6 @@ VisualStudioVersion = 16.0.30621.155
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Kristiania.PG3302-1.CustomCardGame", "Kristiania.PG3302-1.CustomCardGame.csproj", "{FCCE2234-D5D0-4227-AF8C-D9AC9A512C96}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CustomCardGameTest", "..\CustomCardGameTest\CustomCardGameTest.csproj", "{FC49B7FE-A280-4247-BE38-4461989989AB}"
-EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -17,10 +15,6 @@ Global
 		{FCCE2234-D5D0-4227-AF8C-D9AC9A512C96}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{FCCE2234-D5D0-4227-AF8C-D9AC9A512C96}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{FCCE2234-D5D0-4227-AF8C-D9AC9A512C96}.Release|Any CPU.Build.0 = Release|Any CPU
-		{FC49B7FE-A280-4247-BE38-4461989989AB}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{FC49B7FE-A280-4247-BE38-4461989989AB}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{FC49B7FE-A280-4247-BE38-4461989989AB}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{FC49B7FE-A280-4247-BE38-4461989989AB}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

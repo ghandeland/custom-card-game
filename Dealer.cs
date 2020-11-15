@@ -21,13 +21,13 @@ namespace Kristiania.PG3302_1.CustomCardGame
         }
 
          public ICard DealCard()
-        {
+         {
             lock (_deckLock)
             {
-                if (_deck.DeckList.Count < 1)
+                if (_deck.DeckList.Count < 5)
                 {
-                    throw new IndexOutOfRangeException();
-                    return null;
+                    moveDiscardDeckToNormalDeck();
+                    Console.WriteLine("*************MOVEDISCARDDECKTONORMALDECK");
                 }
 
                 int randomIndex = _random.Next(_deck.DeckList.Count);
@@ -87,14 +87,14 @@ namespace Kristiania.PG3302_1.CustomCardGame
 
         public void moveDiscardDeckToNormalDeck()
         {
-            if(_discard.Count < 0) 
+            if(_discard.Count > 0) 
             { 
-            for (int i = 0; i < _discard.Count; i++)
-            {
-                ICard cardToMove = SerializeCardObj(_discard[i]);
-                _deck.DeckList.Add(cardToMove);
-                _discard.RemoveAt(i);
-            }
+                for (int i = 0; i < _discard.Count; i++)
+                {
+                    ICard cardToMove = SerializeCardObj(_discard[i]);
+                    _deck.DeckList.Add(cardToMove);
+                    _discard.RemoveAt(i);
+                }
             }
         }
 

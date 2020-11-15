@@ -31,26 +31,28 @@ namespace Kristiania.PG3302_1.CustomCardGame
         {
             while (true)
             {
-                ICard card = _dealer.DealCard();
+                
+                if(!Quarantine) {
+                    ICard card = _dealer.DealCard();
+                    Thread.Sleep(300);
 
-                if (Quarantine)
+                    CardHandler cardHandler = StratFactory.CreateHandler(card);
+                    cardHandler.Handle(this);
+
+                    if (HasFourOfTheSameSuit())
+                    {
+                        Console.WriteLine("*****************************");
+                    }
+                    Console.WriteLine($"Played{Id} cards on hand count {Hand.Count}");
+                    DiscardCard();
+                } else
                 {
-                    Quarantine = false;
-                    Console.WriteLine($"Player{Id} had to skip a turn:(");
-                    return;
+                        Quarantine = false;
+                        Console.WriteLine($"Player{Id} had to skip a turn:(");
                 }
 
-                Thread.Sleep(300);
 
-                CardHandler cardHandler = StratFactory.CreateHandler(card);
-                cardHandler.Handle(this);
-                if (HasFourOfTheSameSuit())
-                {
-                    Console.WriteLine("*****************************");
-                }
-
-                DiscardCard();
-
+                
             }
         }
 
