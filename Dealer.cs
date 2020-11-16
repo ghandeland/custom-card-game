@@ -54,28 +54,29 @@ namespace Kristiania.PG3302_1.CustomCardGame
 
         public ICard DealSuitedCard()
         {
+            ICard cardToDeal = new NullCard();
             // Maybe a separate class for special cards with method amountOfSpecialCards() to place here?
             if (_deck.DeckList.Count < 5)
             {
-                return null;
+                moveDiscardDeckToNormalDeck();
             }
 
-            Boolean normalCardDrawn = false;
+            bool suitedCardDraws = false;
 
-            while (!normalCardDrawn)
+            while (!suitedCardDraws)
             {
                 int index = _random.Next(_deck.DeckList.Count);
                 ICard drawnCard = _deck.DeckList[index];
 
                 if (drawnCard.GetType() == typeof(SuitedCard))
                 {
-                    ICard cardToDeal = SerializeCardObj(drawnCard);
+                    cardToDeal = SerializeCardObj(drawnCard);
                     _deck.DeckList.RemoveAt(index);
-                    normalCardDrawn = true;
+                    suitedCardDraws = true;
                     return cardToDeal;
                 }
             }
-            return null;
+            return cardToDeal;
         }
 
         public void receiveDiscardedCard(ICard card)
