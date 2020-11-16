@@ -43,7 +43,7 @@ namespace Kristiania.PG3302_1.CustomCardGame
                     {
                         Console.WriteLine("*****************************");
                     }
-                    Console.WriteLine($"Played{Id} cards on hand count {Hand.Count}");
+                    
 
                     DiscardCard(CardToDiscard());
 
@@ -174,6 +174,16 @@ namespace Kristiania.PG3302_1.CustomCardGame
         public void Start()
         {
             _playerThread.Start();
+        }
+
+        public void drawStartingCards(int cardAmount)
+        { 
+            for(int i = 0; i < cardAmount; i++)
+            {
+                ICard card = _dealer.DealSuitedCard();
+                Hand.Add(card);
+                Console.WriteLine($"Player{Id} drew starting card{card.getCardInfo()}");
+            }
         }
 
     }

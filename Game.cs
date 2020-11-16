@@ -32,11 +32,25 @@ namespace Kristiania.PG3302_1.CustomCardGame
             }
         }
 
+        public void SetupGame()
+        {
+            foreach (Player player in _players)
+            {
+                player.drawStartingCards(4);
+                
+            }
+        }
 
 
         public void StartGame()
         {
-            
+            SetupGame();
+            foreach (Player player in _players)
+            {
+                player.Start();
+                
+            }
+
         }
     }
 }
