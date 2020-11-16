@@ -177,13 +177,25 @@ namespace Kristiania.PG3302_1.CustomCardGame
         }
 
         public void drawStartingCards(int cardAmount)
-        { 
+        {
+            
             for(int i = 0; i < cardAmount; i++)
             {
                 ICard card = _dealer.DealSuitedCard();
                 Hand.Add(card);
-                Console.WriteLine($"Player{Id} drew starting card{card.getCardInfo()}");
             }
+            printCurrentHand();
+        }
+
+        public void printCurrentHand()
+        {
+
+            string startString = $"Player{Id} starting hand: |";
+            foreach (ICard card in Hand)
+            {
+                startString += $" {card.getCardInfo()} |";
+            }
+            Console.WriteLine(startString);
         }
 
     }

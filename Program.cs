@@ -7,7 +7,7 @@ namespace Kristiania.PG3302_1.CustomCardGame
         static void Main(string[] args)
         {
 
-            Game game = new Game(4);
+            Game game = new Game(2);
             game.StartGame();
 
         }
