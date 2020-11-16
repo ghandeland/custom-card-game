@@ -39,19 +39,17 @@ namespace Kristiania.PG3302_1.CustomCardGame
             {
                 player.drawStartingCards(4);
                 player.WinEvent += EndGame;
-                
             }
             
         }
 
         private void EndGame(Player sender, EventArgs e)
         {
-            foreach(Player player in _players)
-            {
-                player.Stop();
-            }
             Console.WriteLine($"Player{sender.Id} won the game with following hand:");
-            sender.printCurrentHand();
+            sender.PrintCurrentHand();
+            _dealer.GameIsRunning = false;
+            Console.WriteLine($"Player{sender.Id} won the game with following hand:");
+            
         }
 
         public void StartGame()
@@ -60,15 +58,8 @@ namespace Kristiania.PG3302_1.CustomCardGame
             foreach (Player player in _players)
             {
                 player.Start();
-                
             }
 
         }
-
-        public void EndGame(int id)
-        {
-            Console.WriteLine("**********************END" + id);
-        }
-
     }
 }

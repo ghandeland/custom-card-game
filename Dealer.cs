@@ -13,26 +13,35 @@ namespace Kristiania.PG3302_1.CustomCardGame
         private Deck _deck;
         private Random _random;
         private List<ICard> _discard;
+        public bool GameIsRunning { get; set; }
+
         public Dealer(Deck deck)
         {
             _deck = deck;
             _random = new Random();
             _discard = new List<ICard>();
+            GameIsRunning = true;
         }
 
          public ICard DealCard()
          {
+            
             lock (_deckLock)
             {
-                if (_deck.DeckList.Count < 5)
-                {
-                    moveDiscardDeckToNormalDeck();
-                }
+                if(GameIsRunning) { 
+                    if (_deck.DeckList.Count < 5)
+                    {
+                        moveDiscardDeckToNormalDeck();
+                    }
 
-                int randomIndex = _random.Next(_deck.DeckList.Count);
-                ICard cardToDeal = SerializeCardObj(_deck.DeckList[randomIndex]);
-                _deck.DeckList.RemoveAt(randomIndex);
-                return cardToDeal;
+                    int randomIndex = _random.Next(_deck.DeckList.Count);
+                    ICard cardToDeal = SerializeCardObj(_deck.DeckList[randomIndex]);
+                    _deck.DeckList.RemoveAt(randomIndex);
+                    return cardToDeal;
+                } else
+                {
+                    return new NullCard();
+                }
             }
         }
 

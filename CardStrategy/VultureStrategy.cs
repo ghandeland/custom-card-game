@@ -15,7 +15,12 @@ namespace Kristiania.PG3302_1.CustomCardGame.specialCardStrategy
         public override void HandleCard(Player player)
         {
             player.Hand.Add(Card);
-            Console.WriteLine($"Player{player.Id} drew VULTURE {Card.getCardInfo()}");
+            Console.WriteLine($"Player{player.Id} drew VULTURE {Card.getCardInfo()} and can draw another card!");
+            
+            ICard card = player.DrawCard();
+            player.Hand.Add(card);
+            Console.WriteLine($"Player{player.Id} drew card {card.getCardInfo()}");
+            player.DiscardCard(player.GetCardToDiscard());
         }
     }
 }

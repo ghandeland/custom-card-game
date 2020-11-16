@@ -26,32 +26,36 @@ namespace Kristiania.PG3302_1.CustomCardGame
         public Player(int id, Dealer dealer)
         {
             Id = id;
-            _run = true;
-            _playerThread = new Thread(DrawCard);
+            _playerThread = new Thread(Play);
             _dealer = dealer;
             Hand = new List<ICard>();
             Quarantine = false;
         }
 
-        private void DrawCard()
+        private void Play()
         {
-            while (_run)
+            while (_dealer.GameIsRunning)
             {
                 
                 if(!Quarantine) {
-                    ICard card = _dealer.DealCard();
-                    Thread.Sleep(300);
 
-                    CardHandler cardHandler = StratFactory.CreateHandler(card);
-                    cardHandler.Handle(this);
+                    ICard card = DrawCard();
 
-                    if (HasFourOfTheSameSuit())
+                    if(card.GetType() != typeof(NullCard))
                     {
-                        OnFourOfTheSameSuit();
+                        Thread.Sleep(300);
+
+                        CardHandler cardHandler = StratFactory.CreateHandler(card);
+                        cardHandler.Handle(this);
+
+
+                        if (HasFourOfTheSameSuit())
+                        {
+                            OnFourOfTheSameSuit();
+                        }
                     }
                     
-
-                    DiscardCard(CardToDiscard());
+                    
 
                 } else
                 {
@@ -132,7 +136,7 @@ namespace Kristiania.PG3302_1.CustomCardGame
             return false;
         }
 
-        public ICard CardToDiscard()
+        public ICard GetCardToDiscard()
         {
             ICard discardCard = new NullCard();
 
@@ -148,6 +152,15 @@ namespace Kristiania.PG3302_1.CustomCardGame
                         SuitCount[suited.Suit]++;
                     else
                         SuitCount[suited.Suit] = 1;
+                } else
+                {
+                    SpecialCard special = (SpecialCard) card;
+                    if(special.Type == SpecialCardType.Bomb
+                        || special.Type == SpecialCardType.Quarantine)
+                    {
+                        return special;
+                    }
+
                 }
             }
 
@@ -182,15 +195,21 @@ namespace Kristiania.PG3302_1.CustomCardGame
             return discardCard;
         }
 
+        public ICard DrawCard()
+        {
+            return _dealer.DealCard();
+        }
+
         public void Start()
         {
             _playerThread.Start();
         }
 
-        public void Stop()
+        /*public void Stop()
         {
+            _playerThread = null;
             _run = !_run;
-        }
+        }*/
 
         public void drawStartingCards(int cardAmount)
         {
@@ -200,10 +219,10 @@ namespace Kristiania.PG3302_1.CustomCardGame
                 ICard card = _dealer.DealSuitedCard();
                 Hand.Add(card);
             }
-            printCurrentHand();
+            PrintCurrentHand();
         }
 
-        public void printCurrentHand()
+        public void PrintCurrentHand()
         {
 
             string startString = $"Player{Id} hand: |";

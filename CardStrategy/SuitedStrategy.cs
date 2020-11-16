@@ -15,6 +15,7 @@ namespace Kristiania.PG3302_1.CustomCardGame.CardStrategy
         {
             player.Hand.Add(Card);
             Console.WriteLine($"Player{player.Id} drew card {Card.getCardInfo()}");
+            player.DiscardCard(player.GetCardToDiscard());
         }
     }
 }

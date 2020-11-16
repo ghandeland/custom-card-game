@@ -16,7 +16,7 @@ namespace Kristiania.PG3302_1.CustomCardGame.specialCardStrategy
         {
             player.Hand.Add(Card);
             player.Quarantine = true;
-            Console.WriteLine($"Player{player.Id} drew {Card.getCardInfo()}!");
+            Console.WriteLine($"Player{player.Id} drew {Card.getCardInfo()} and has to skip a turn!");
             
         }
     }
