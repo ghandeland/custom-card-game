@@ -1,66 +1,113 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Runtime.CompilerServices;
 using System.Text;
 using System.Text.Json;
 using Newtonsoft.Json;
 
 namespace Kristiania.PG3302_1.CustomCardGame
 {
-    class Dealer
+    public class Dealer
     {
         private Object _deckLock = new Object();
         private Deck _deck;
         private Random _random;
+        private List<ICard> _discard;
+        public bool GameIsRunning { get; set; }
 
         public Dealer(Deck deck)
         {
             _deck = deck;
             _random = new Random();
+            _discard = new List<ICard>();
+            GameIsRunning = true;
         }
 
-        public string DealCard()
-        {
+         public ICard DealCard()
+         {
+            
             lock (_deckLock)
             {
-                if (_deck.DeckList.Count < 1)
-                {
-                    return null;
-                }
+                if(GameIsRunning) { 
+                    if (_deck.DeckList.Count < 5)
+                    {
+                        moveDiscardDeckToNormalDeck();
+                    }
 
-                int randomIndex = _random.Next(_deck.DeckList.Count);
-                Card drawnCard = _deck.DeckList[randomIndex];
-                string cardToJson = Card.serializeCard(drawnCard);
-                _deck.DeckList.RemoveAt(randomIndex);
-                return cardToJson;
+                    int randomIndex = _random.Next(_deck.DeckList.Count);
+                    ICard cardToDeal = SerializeCardObj(_deck.DeckList[randomIndex]);
+                    _deck.DeckList.RemoveAt(randomIndex);
+                    return cardToDeal;
+                } else
+                {
+                    return new NullCard();
+                }
             }
         }
 
-
-        public string DealNormalCard()
+        private ICard SerializeCardObj(ICard card)
         {
+            string cardToJson = JsonConvert.SerializeObject(card);
+            if (card.GetType() == typeof(SuitedCard))
+            {
+                SuitedCard cardToDeal = JsonConvert.DeserializeObject<SuitedCard>(cardToJson);
+                return cardToDeal;
+            }
+            else
+            {
+                SpecialCard cardToDeal = JsonConvert.DeserializeObject<SpecialCard>(cardToJson);
+                return cardToDeal;
+            }
+             
+        }
+
+        public ICard DealSuitedCard()
+        {
+            ICard cardToDeal = new NullCard();
             // Maybe a separate class for special cards with method amountOfSpecialCards() to place here?
             if (_deck.DeckList.Count < 5)
             {
-                return null;
+                moveDiscardDeckToNormalDeck();
             }
 
-            String cardToJson = "";
-            Boolean normalCardDrawn = false;
+            bool suitedCardDraws = false;
 
-            while (!normalCardDrawn)
+            while (!suitedCardDraws)
             {
                 int index = _random.Next(_deck.DeckList.Count);
-                Card drawnCard = _deck.DeckList[index];
+                ICard drawnCard = _deck.DeckList[index];
 
-                if (drawnCard.Type.Equals(CardType.Normal))
+                if (drawnCard.GetType() == typeof(SuitedCard))
                 {
-                    cardToJson = Card.serializeCard(drawnCard);
+                    cardToDeal = SerializeCardObj(drawnCard);
                     _deck.DeckList.RemoveAt(index);
-                    normalCardDrawn = true;
+                    suitedCardDraws = true;
+                    return cardToDeal;
                 }
             }
-            return cardToJson;
+            return cardToDeal;
         }
+
+        public void receiveDiscardedCard(ICard card)
+        {
+            var newCardObj = SerializeCardObj(card);
+            _discard.Add(newCardObj);
+        }
+
+        public void moveDiscardDeckToNormalDeck()
+        {
+            if(_discard.Count > 0) 
+            { 
+                for (int i = 0; i < _discard.Count; i++)
+                {
+                    ICard cardToMove = SerializeCardObj(_discard[i]);
+                    _deck.DeckList.Add(cardToMove);
+                    _discard.RemoveAt(i);
+                }
+            }
+        }
+
+        
 
 
     }

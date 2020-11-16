@@ -4,8 +4,11 @@ using System.Text;
 
 namespace Kristiania.PG3302_1.CustomCardGame
 {
-    public interface ICard
+    class NullCard : ICard
     {
-        string getCardInfo();
+        public string getCardInfo() 
+        {
+            return "NullCard";
+        }
     }
 }
