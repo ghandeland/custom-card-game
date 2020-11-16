@@ -13,6 +13,7 @@ namespace Kristiania.PG3302_1.CustomCardGame
         private Dealer _dealer;
         private List<Player> _players;
         private Deck _deck;
+        public event EventHandler GameWon;
 
         public Game(int playerAmount)
         {
@@ -28,19 +29,30 @@ namespace Kristiania.PG3302_1.CustomCardGame
             }
             else
             {
-                throw new IndexOutOfRangeException();
+                throw new IndexOutOfRangeException("Player amount ranges from 2-4 players");
             }
         }
 
         public void SetupGame()
-        {
+        { 
             foreach (Player player in _players)
             {
                 player.drawStartingCards(4);
+                player.WinEvent += EndGame;
                 
             }
+            
         }
 
+        private void EndGame(Player sender, EventArgs e)
+        {
+            foreach(Player player in _players)
+            {
+                player.Stop();
+            }
+            Console.WriteLine($"Player{sender.Id} won the game with following hand:");
+            sender.printCurrentHand();
+        }
 
         public void StartGame()
         {
@@ -52,5 +64,11 @@ namespace Kristiania.PG3302_1.CustomCardGame
             }
 
         }
+
+        public void EndGame(int id)
+        {
+            Console.WriteLine("**********************END" + id);
+        }
+
     }
 }

@@ -16,11 +16,17 @@ namespace Kristiania.PG3302_1.CustomCardGame
         public List<ICard> Hand { get; set; }
         private Thread _playerThread;
         private Dealer _dealer;
+        private bool _run;
         public bool Quarantine { get; set; }
+
+        public delegate void WinEventDelegate(Player source, EventArgs args);
+        public event WinEventDelegate WinEvent;
+
 
         public Player(int id, Dealer dealer)
         {
             Id = id;
+            _run = true;
             _playerThread = new Thread(DrawCard);
             _dealer = dealer;
             Hand = new List<ICard>();
@@ -29,7 +35,7 @@ namespace Kristiania.PG3302_1.CustomCardGame
 
         private void DrawCard()
         {
-            while (true)
+            while (_run)
             {
                 
                 if(!Quarantine) {
@@ -41,7 +47,7 @@ namespace Kristiania.PG3302_1.CustomCardGame
 
                     if (HasFourOfTheSameSuit())
                     {
-                        Console.WriteLine("*****************************");
+                        OnFourOfTheSameSuit();
                     }
                     
 
@@ -56,6 +62,11 @@ namespace Kristiania.PG3302_1.CustomCardGame
 
                 
             }
+        }
+
+        private void OnFourOfTheSameSuit()
+        {
+            WinEvent?.Invoke(this, EventArgs.Empty);
         }
 
         public void DiscardCard(ICard card)
@@ -176,6 +187,11 @@ namespace Kristiania.PG3302_1.CustomCardGame
             _playerThread.Start();
         }
 
+        public void Stop()
+        {
+            _run = !_run;
+        }
+
         public void drawStartingCards(int cardAmount)
         {
             
@@ -190,7 +206,7 @@ namespace Kristiania.PG3302_1.CustomCardGame
         public void printCurrentHand()
         {
 
-            string startString = $"Player{Id} starting hand: |";
+            string startString = $"Player{Id} hand: |";
             foreach (ICard card in Hand)
             {
                 startString += $" {card.getCardInfo()} |";
