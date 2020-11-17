@@ -7,7 +7,7 @@ using Newtonsoft.Json;
 
 namespace Kristiania.PG3302_1.CustomCardGame
 {
-    public class Dealer
+    public class Dealer : IDealer
     {
         private Object _deckLock = new Object();
         private Deck _deck;

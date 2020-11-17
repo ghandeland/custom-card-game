@@ -10,7 +10,7 @@ using Newtonsoft.Json;
 
 namespace Kristiania.PG3302_1.CustomCardGame
 {
-    public class Player
+    public class Player : IPlayer
     {
         public int Id { get; set; }
         public List<ICard> Hand { get; set; }
@@ -87,7 +87,7 @@ namespace Kristiania.PG3302_1.CustomCardGame
             {
                 ICard beforeDiscard = Hand[index];
                 _dealer.receiveDiscardedCard(beforeDiscard);
-                Console.WriteLine($"Player{Id} discarded {beforeDiscard.getCardInfo()}");
+                Console.WriteLine($"Player{Id} discarded {beforeDiscard.GetCardInfo()}");
                 Hand.RemoveAt(index);
             } 
             
@@ -228,7 +228,7 @@ namespace Kristiania.PG3302_1.CustomCardGame
             string startString = $"Player{Id} hand: |";
             foreach (ICard card in Hand)
             {
-                startString += $" {card.getCardInfo()} |";
+                startString += $" {card.GetCardInfo()} |";
             }
             Console.WriteLine(startString);
         }

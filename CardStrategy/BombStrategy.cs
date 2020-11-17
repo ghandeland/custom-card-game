@@ -15,7 +15,7 @@ namespace Kristiania.PG3302_1.CustomCardGame.specialCardStrategy
         public override void HandleCard(Player player)
         {
             player.Hand.Add(Card);
-            Console.WriteLine($"Player{player.Id} drew {Card.getCardInfo()} and has to discard all cards!");
+            Console.WriteLine($"Player{player.Id} drew {Card.GetCardInfo()} and has to discard all cards!");
 
             for (int i = player.Hand.Count - 1; i >= 0; i--)
             {
@@ -26,7 +26,7 @@ namespace Kristiania.PG3302_1.CustomCardGame.specialCardStrategy
             {
                 ICard card = player.DrawCard();
                 player.Hand.Add(card);
-                Console.WriteLine($"Player{player.Id} drew card {card.getCardInfo()}");
+                Console.WriteLine($"Player{player.Id} drew card {card.GetCardInfo()}");
             }
         }
     }

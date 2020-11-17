@@ -4,8 +4,9 @@ using System.Text;
 
 namespace Kristiania.PG3302_1.CustomCardGame
 {
-    public interface ICard
+    public interface IDealer
     {
-        string GetCardInfo();
+        ICard DealCard();
+
     }
 }

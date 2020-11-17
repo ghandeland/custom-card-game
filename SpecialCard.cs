@@ -16,7 +16,7 @@ namespace Kristiania.PG3302_1.CustomCardGame
 
         public SpecialCard() { }
 
-        public string getCardInfo()
+        public string GetCardInfo()
         {
             return (Type.ToString());
         }

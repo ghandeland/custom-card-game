@@ -83,7 +83,7 @@ namespace Kristiania.PG3302_1.CustomCardGame
         {
             foreach (SuitedCard card in DeckList)
             {
-                Console.WriteLine(card.getCardInfo());
+                Console.WriteLine(card.GetCardInfo());
             }
         }
 

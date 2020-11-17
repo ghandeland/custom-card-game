@@ -22,7 +22,7 @@ namespace Kristiania.PG3302_1.CustomCardGame
 
         public SuitedCard() { }
 
-        public string getCardInfo()
+        public string GetCardInfo()
         {
             return(this.Value + " of " + this.Suit.ToString());
         }

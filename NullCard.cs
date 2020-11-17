@@ -6,7 +6,7 @@ namespace Kristiania.PG3302_1.CustomCardGame
 {
     class NullCard : ICard
     {
-        public string getCardInfo() 
+        public string GetCardInfo() 
         {
             return "NullCard";
         }

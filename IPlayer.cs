@@ -4,8 +4,8 @@ using System.Text;
 
 namespace Kristiania.PG3302_1.CustomCardGame
 {
-    public interface ICard
+    interface IPlayer
     {
-        string GetCardInfo();
+        void Start();
     }
 }
