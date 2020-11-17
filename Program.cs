@@ -6,51 +6,30 @@ namespace Kristiania.PG3302_1.CustomCardGame
     {
         static void Main(string[] args)
         {
-            Game game = new Game(2);
-            game.StartGame();
-
-
-            /*Console.WriteLine("Hi! Welcome to this wonderfull card game");
-            Console.WriteLine("How many players? (2-4)");
+           
+            Console.WriteLine("Hi! Welcome to this wonderful card game");
+            Console.WriteLine("How many players? (2-4) ");
             bool gameNotStarted = true;
-            int playerAmount = Convert.ToInt32(Console.ReadLine());
-            while (gameNotStarted) { 
-                
-            
-                if(playerAmount < 2 || playerAmount > 4)
+
+            while (gameNotStarted)
+            {
+                int playerAmount = Convert.ToInt32(Console.ReadLine());
+
+                if (playerAmount < 2 || playerAmount > 4)
                 {
                     Console.WriteLine("Please enter a number between 2 and 4");
-                    playerAmount = Convert.ToInt32(Console.ReadLine());
                 }
                 else
                 {
-                        gameNotStarted = false;
-                        Game game = new Game(playerAmount);
-                        game.StartGame();
-                        bool playAgain = false;
+                    gameNotStarted = false;
+                    Game game = new Game(playerAmount);
+                    game.StartGame();
 
-                    while (!playAgain)
-                    {
-
-                        Console.WriteLine("Do you want to play again? (Y/N)");
-                        String playAgainAnswer = (Console.ReadLine());
-                        if (playAgainAnswer.ToLower().Equals("y"))
-                        {
-                            playAgain = true;
-
-                        }
-                        else
-                        {
-                            return;
-                        }
-
-                        gameNotStarted = true;
+                }
 
 
-                    }
-                }   
-           }
-        }*/
+
+            }
         }
     }
 }
