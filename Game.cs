@@ -13,12 +13,14 @@ namespace Kristiania.PG3302_1.CustomCardGame
         private List<Player> _players;
         private Deck _deck;
         public event EventHandler GameWon;
+        public bool IsOver { get; set; }
 
         public Game(int playerAmount)
         {
             _deck = Deck.Instance;
             _dealer = new Dealer(_deck);
             _players = new List<Player>();
+            IsOver = false;
             if (playerAmount > 1 && playerAmount < 5)
             {
                 for (int i = 0; i < playerAmount; i++)
@@ -48,6 +50,7 @@ namespace Kristiania.PG3302_1.CustomCardGame
             Console.WriteLine($"Player{sender.Id} won the game with following hand:");
             sender.PrintCurrentHand();
             _dealer.GameIsRunning = false;
+            IsOver = true;
         }
 
         public void StartGame()
