@@ -9,7 +9,7 @@ namespace Kristiania.PG3302_1.CustomCardGame
 {
     public class Dealer : IDealer
     {
-        private Object _deckLock = new Object();
+        private static readonly object _deckLock = new Object();
         private Deck _deck;
         private Random _random;
         private List<ICard> _discard;

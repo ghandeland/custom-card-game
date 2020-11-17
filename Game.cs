@@ -16,7 +16,7 @@ namespace Kristiania.PG3302_1.CustomCardGame
 
         public Game(int playerAmount)
         {
-            _deck = new Deck();
+            _deck = Deck.Instance;
             _dealer = new Dealer(_deck);
             _players = new List<Player>();
             if (playerAmount > 1 && playerAmount < 5)
