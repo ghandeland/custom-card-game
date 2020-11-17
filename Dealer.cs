@@ -88,7 +88,7 @@ namespace Kristiania.PG3302_1.CustomCardGame
             return cardToDeal;
         }
 
-        public void receiveDiscardedCard(ICard card)
+        public void ReceiveDiscardedCard(ICard card)
         {
             var newCardObj = SerializeCardObj(card);
             _discard.Add(newCardObj);

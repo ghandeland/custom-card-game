@@ -37,7 +37,7 @@ namespace Kristiania.PG3302_1.CustomCardGame
         { 
             foreach (Player player in _players)
             {
-                player.drawStartingCards(4);
+                player.DrawStartingCards(4);
                 player.WinEvent += EndGame;
             }
             

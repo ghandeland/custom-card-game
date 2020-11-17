@@ -32,7 +32,7 @@ namespace Kristiania.PG3302_1.CustomCardGame
             Quarantine = false;
         }
 
-        private void Play()
+        public void Play()
         {
             while (_dealer.GameIsRunning)
             {
@@ -86,7 +86,7 @@ namespace Kristiania.PG3302_1.CustomCardGame
             if(index > -1)
             {
                 ICard beforeDiscard = Hand[index];
-                _dealer.receiveDiscardedCard(beforeDiscard);
+                _dealer.ReceiveDiscardedCard(beforeDiscard);
                 Console.WriteLine($"Player{Id} discarded {beforeDiscard.GetCardInfo()}");
                 Hand.RemoveAt(index);
             } 
@@ -211,7 +211,7 @@ namespace Kristiania.PG3302_1.CustomCardGame
             _run = !_run;
         }*/
 
-        public void drawStartingCards(int cardAmount)
+        public void DrawStartingCards(int cardAmount)
         {
             
             for(int i = 0; i < cardAmount; i++)
@@ -220,6 +220,7 @@ namespace Kristiania.PG3302_1.CustomCardGame
                 Hand.Add(card);
             }
             PrintCurrentHand();
+           
         }
 
         public void PrintCurrentHand()
@@ -233,5 +234,6 @@ namespace Kristiania.PG3302_1.CustomCardGame
             Console.WriteLine(startString);
         }
 
+      
     }
 }

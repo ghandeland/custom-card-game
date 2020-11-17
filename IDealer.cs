@@ -7,6 +7,8 @@ namespace Kristiania.PG3302_1.CustomCardGame
     public interface IDealer
     {
         ICard DealCard();
+        ICard DealSuitedCard();
+        void ReceiveDiscardedCard(ICard card);
 
     }
 }
