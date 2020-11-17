@@ -9,7 +9,6 @@ namespace Kristiania.PG3302_1.CustomCardGame
 {
     class Game
     {
-        private bool GameIsWon { get; set; }
         private Dealer _dealer;
         private List<Player> _players;
         private Deck _deck;
@@ -37,7 +36,8 @@ namespace Kristiania.PG3302_1.CustomCardGame
         { 
             foreach (Player player in _players)
             {
-                player.DrawStartingCards(4);
+                player.DrawSuitedCards(4, false);
+                player.PrintCurrentHand();
                 player.WinEvent += EndGame;
             }
             
@@ -48,8 +48,6 @@ namespace Kristiania.PG3302_1.CustomCardGame
             Console.WriteLine($"Player{sender.Id} won the game with following hand:");
             sender.PrintCurrentHand();
             _dealer.GameIsRunning = false;
-            Console.WriteLine($"Player{sender.Id} won the game with following hand:");
-            
         }
 
         public void StartGame()

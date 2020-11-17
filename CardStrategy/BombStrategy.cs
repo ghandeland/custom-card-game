@@ -22,12 +22,14 @@ namespace Kristiania.PG3302_1.CustomCardGame.specialCardStrategy
                 player.DiscardCard(player.Hand[i]);
             }
 
-            for (int i = 0; i < 4; i++)
+            player.DrawSuitedCards(4, true);
+
+            /*for (int i = 0; i < 4; i++)
             {
                 ICard card = player.DrawCard();
                 player.Hand.Add(card);
                 Console.WriteLine($"Player{player.Id} drew card {card.GetCardInfo()}");
-            }
+            }*/
         }
     }
 }

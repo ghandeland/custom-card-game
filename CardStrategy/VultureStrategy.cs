@@ -16,10 +16,11 @@ namespace Kristiania.PG3302_1.CustomCardGame.specialCardStrategy
         {
             player.Hand.Add(Card);
             Console.WriteLine($"Player{player.Id} drew VULTURE {Card.GetCardInfo()} and can draw another card!");
-            
-            ICard card = player.DrawCard();
+
+            /*ICard card = player.DrawCard();
             player.Hand.Add(card);
-            Console.WriteLine($"Player{player.Id} drew card {card.GetCardInfo()}");
+            Console.WriteLine($"Player{player.Id} drew card {card.GetCardInfo()}");*/
+            player.DrawSuitedCards(1, true);
             player.DiscardCard(player.GetCardToDiscard());
         }
     }

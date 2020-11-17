@@ -6,30 +6,35 @@ namespace Kristiania.PG3302_1.CustomCardGame
     {
         static void Main(string[] args)
         {
+            Game game = new Game(2);
+            game.StartGame();
 
-            Console.WriteLine("Hi! Welcome to this wonderfull card game");
-            Console.WriteLine("How many players? (2-4) ");
+
+            /*Console.WriteLine("Hi! Welcome to this wonderfull card game");
+            Console.WriteLine("How many players? (2-4)");
             bool gameNotStarted = true;
-            
-            while (gameNotStarted) { 
             int playerAmount = Convert.ToInt32(Console.ReadLine());
+            while (gameNotStarted) { 
+                
             
-            if(playerAmount < 2 || playerAmount > 4)
-            {
-                Console.WriteLine("Please enter a number between 2 and 4");
-            }
-            else 
-            {
-                    gameNotStarted = false;
-                    Game game = new Game(playerAmount);
-                    game.StartGame();
-                    bool playAgain = false;
+                if(playerAmount < 2 || playerAmount > 4)
+                {
+                    Console.WriteLine("Please enter a number between 2 and 4");
+                    playerAmount = Convert.ToInt32(Console.ReadLine());
+                }
+                else
+                {
+                        gameNotStarted = false;
+                        Game game = new Game(playerAmount);
+                        game.StartGame();
+                        bool playAgain = false;
 
-                    while (!playAgain) { 
-                        
+                    while (!playAgain)
+                    {
+
                         Console.WriteLine("Do you want to play again? (Y/N)");
                         String playAgainAnswer = (Console.ReadLine());
-                        if (playAgainAnswer.ToLower().Equals("Y"))
+                        if (playAgainAnswer.ToLower().Equals("y"))
                         {
                             playAgain = true;
 
@@ -38,15 +43,14 @@ namespace Kristiania.PG3302_1.CustomCardGame
                         {
                             return;
                         }
-                        
+
                         gameNotStarted = true;
 
+
                     }
-
-                
-
-              }
+                }   
            }
+        }*/
         }
     }
 }

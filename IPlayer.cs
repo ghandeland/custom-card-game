@@ -8,8 +8,6 @@ namespace Kristiania.PG3302_1.CustomCardGame
     {
         void Start();
         void Play();
-        ICard DrawCard();
         void PrintCurrentHand();
-        void DrawStartingCards(int players);
     }
 }
