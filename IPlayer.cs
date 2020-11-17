@@ -4,8 +4,10 @@ using System.Text;
 
 namespace Kristiania.PG3302_1.CustomCardGame
 {
-    public interface ICard
+    public interface IPlayer
     {
-        string GetCardInfo();
+        void Start();
+        void Play();
+        void PrintCurrentHand();
     }
 }

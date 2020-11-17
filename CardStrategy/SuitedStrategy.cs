@@ -14,7 +14,7 @@ namespace Kristiania.PG3302_1.CustomCardGame.CardStrategy
         public override void HandleCard(Player player)
         {
             player.Hand.Add(Card);
-            Console.WriteLine($"Player{player.Id} drew card {Card.getCardInfo()}");
+            Console.WriteLine($"Player{player.Id} drew card {Card.GetCardInfo()}");
             player.DiscardCard(player.GetCardToDiscard());
         }
     }

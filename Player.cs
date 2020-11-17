@@ -10,13 +10,13 @@ using Newtonsoft.Json;
 
 namespace Kristiania.PG3302_1.CustomCardGame
 {
-    public class Player
+    public class Player : IPlayer
     {
         public int Id { get; set; }
         public List<ICard> Hand { get; set; }
         private Thread _playerThread;
         private Dealer _dealer;
-        private bool _run;
+        public bool Won { get; set; }
         public bool Quarantine { get; set; }
 
         public delegate void WinEventDelegate(Player source, EventArgs args);
@@ -30,47 +30,41 @@ namespace Kristiania.PG3302_1.CustomCardGame
             _dealer = dealer;
             Hand = new List<ICard>();
             Quarantine = false;
+            Won = false;
         }
 
-        private void Play()
+        public void Play()
         {
             while (_dealer.GameIsRunning)
             {
                 
                 if(!Quarantine) {
-
-                    ICard card = DrawCard();
-
-                    if(card.GetType() != typeof(NullCard))
-                    {
-                        Thread.Sleep(300);
-
-                        CardHandler cardHandler = StratFactory.CreateHandler(card);
-                        cardHandler.Handle(this);
-
-
-                        if (HasFourOfTheSameSuit())
-                        {
-                            OnFourOfTheSameSuit();
-                        }
-                    }
-                    
-                    
-
+                    ICard card = _dealer.DealCard(this);
                 } else
                 {
                         Quarantine = false;
                         Console.WriteLine($"Player{Id} had to skip a turn:(");
                 }
-
-
-                
             }
         }
 
-        private void OnFourOfTheSameSuit()
+        public void RecieveCard(ICard card)
         {
+            if (card.GetType() != typeof(NullCard))
+            {
+                Thread.Sleep(400);
+
+                CardHandler cardHandler = StratFactory.CreateHandler(card);
+                cardHandler.Handle(this);
+            }
+
+        }
+
+        private void InvokeWinEvent()
+        {
+            Won = true;
             WinEvent?.Invoke(this, EventArgs.Empty);
+            
         }
 
         public void DiscardCard(ICard card)
@@ -86,12 +80,19 @@ namespace Kristiania.PG3302_1.CustomCardGame
             if(index > -1)
             {
                 ICard beforeDiscard = Hand[index];
-                _dealer.receiveDiscardedCard(beforeDiscard);
-                Console.WriteLine($"Player{Id} discarded {beforeDiscard.getCardInfo()}");
+                _dealer.ReceiveDiscardedCard(beforeDiscard);
+                Console.WriteLine($"Player{Id} discarded {beforeDiscard.GetCardInfo()}");
                 Hand.RemoveAt(index);
             } 
             
        
+        }
+
+        public bool CheckIfWon()
+        {
+            bool won = HasFourOfTheSameSuit();
+            if(won) InvokeWinEvent();
+            return HasFourOfTheSameSuit();
         }
 
         private bool HasFourOfTheSameSuit()
@@ -195,31 +196,22 @@ namespace Kristiania.PG3302_1.CustomCardGame
             return discardCard;
         }
 
-        public ICard DrawCard()
-        {
-            return _dealer.DealCard();
-        }
-
         public void Start()
         {
             _playerThread.Start();
         }
 
-        /*public void Stop()
-        {
-            _playerThread = null;
-            _run = !_run;
-        }*/
-
-        public void drawStartingCards(int cardAmount)
+        public void DrawSuitedCards(int cardAmount, Boolean printDraw)
         {
             
             for(int i = 0; i < cardAmount; i++)
             {
                 ICard card = _dealer.DealSuitedCard();
                 Hand.Add(card);
+                if(printDraw) Console.WriteLine($"Player{Id} drew card {card.GetCardInfo()}");
             }
-            PrintCurrentHand();
+            
+           
         }
 
         public void PrintCurrentHand()
@@ -228,10 +220,11 @@ namespace Kristiania.PG3302_1.CustomCardGame
             string startString = $"Player{Id} hand: |";
             foreach (ICard card in Hand)
             {
-                startString += $" {card.getCardInfo()} |";
+                startString += $" {card.GetCardInfo()} |";
             }
             Console.WriteLine(startString);
         }
 
+      
     }
 }

@@ -20,26 +20,10 @@ namespace Kristiania.PG3302_1.CustomCardGame
             
         }
 
-        public SuitedCard() { }
-
-        public string getCardInfo()
+        public string GetCardInfo()
         {
             return(this.Value + " of " + this.Suit.ToString());
         }
-        public static string serializeCard(SuitedCard suitedCard)
-        {
-            return JsonConvert.SerializeObject(suitedCard);
-        }
-
-        public static SuitedCard DeserializeCard(string jsonCard)
-        {
-            SuitedCard suitedCard = JsonConvert.DeserializeObject<SuitedCard>(jsonCard);
-
-            return suitedCard;
-        }
-
-
-
     }
 
     public enum CardSuit

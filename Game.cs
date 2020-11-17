@@ -9,17 +9,18 @@ namespace Kristiania.PG3302_1.CustomCardGame
 {
     class Game
     {
-        private bool GameIsWon { get; set; }
         private Dealer _dealer;
         private List<Player> _players;
         private Deck _deck;
         public event EventHandler GameWon;
+        public bool IsOver { get; set; }
 
         public Game(int playerAmount)
         {
-            _deck = new Deck();
+            _deck = Deck.Instance;
             _dealer = new Dealer(_deck);
             _players = new List<Player>();
+            IsOver = false;
             if (playerAmount > 1 && playerAmount < 5)
             {
                 for (int i = 0; i < playerAmount; i++)
@@ -37,7 +38,8 @@ namespace Kristiania.PG3302_1.CustomCardGame
         { 
             foreach (Player player in _players)
             {
-                player.drawStartingCards(4);
+                player.DrawSuitedCards(4, false);
+                player.PrintCurrentHand();
                 player.WinEvent += EndGame;
             }
             
@@ -48,8 +50,7 @@ namespace Kristiania.PG3302_1.CustomCardGame
             Console.WriteLine($"Player{sender.Id} won the game with following hand:");
             sender.PrintCurrentHand();
             _dealer.GameIsRunning = false;
-            Console.WriteLine($"Player{sender.Id} won the game with following hand:");
-            
+            IsOver = true;
         }
 
         public void StartGame()

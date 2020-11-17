@@ -9,12 +9,28 @@ namespace Kristiania.PG3302_1.CustomCardGame
     public class Deck
     {
         public List<ICard> DeckList { get; set; }
+        private static readonly object _deckLock = new Object();
+        private static Deck instance = null;
+        public static Deck Instance
+        {
+            get
+            {
+                lock (_deckLock)
+                {
+                    if (instance == null)
+                    {
+                        instance = new Deck();
+                    }
+                    return instance;
+                }
+            }
+        }
 
-        public Deck()
+        private Deck()
         {
             DeckList = FillDeck();
             SetSpecialCards();
-            //PrintDeck();
+            
         }
 
         private void SetSpecialCards()
@@ -83,7 +99,7 @@ namespace Kristiania.PG3302_1.CustomCardGame
         {
             foreach (SuitedCard card in DeckList)
             {
-                Console.WriteLine(card.getCardInfo());
+                Console.WriteLine(card.GetCardInfo());
             }
         }
 

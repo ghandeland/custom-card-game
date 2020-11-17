@@ -7,9 +7,9 @@ using Newtonsoft.Json;
 
 namespace Kristiania.PG3302_1.CustomCardGame
 {
-    public class Dealer
+    public class Dealer : IDealer
     {
-        private Object _deckLock = new Object();
+        private static readonly object _deckLock = new Object();
         private Deck _deck;
         private Random _random;
         private List<ICard> _discard;
@@ -23,26 +23,65 @@ namespace Kristiania.PG3302_1.CustomCardGame
             GameIsRunning = true;
         }
 
-         public ICard DealCard()
+         public ICard DealCard(Player player)
          {
             
             lock (_deckLock)
             {
-                if(GameIsRunning) { 
+                if(GameIsRunning) 
+                { 
+                    
                     if (_deck.DeckList.Count < 5)
                     {
                         moveDiscardDeckToNormalDeck();
                     }
 
+
                     int randomIndex = _random.Next(_deck.DeckList.Count);
                     ICard cardToDeal = SerializeCardObj(_deck.DeckList[randomIndex]);
                     _deck.DeckList.RemoveAt(randomIndex);
+                    player.RecieveCard(cardToDeal);
+
+                    if (player.CheckIfWon()) GameIsRunning = false;
                     return cardToDeal;
+
                 } else
                 {
                     return new NullCard();
                 }
             }
+        }
+
+
+        public ICard DealSuitedCard()
+        {
+            lock (_deckLock)
+            {
+                ICard cardToDeal = new NullCard();
+
+                if (_deck.DeckList.Count < 5)
+                {
+                    moveDiscardDeckToNormalDeck();
+                }
+
+                bool suitedCardDraws = false;
+
+                while (!suitedCardDraws)
+                {
+                    int index = _random.Next(_deck.DeckList.Count);
+                    ICard drawnCard = _deck.DeckList[index];
+
+                    if (drawnCard.GetType() == typeof(SuitedCard))
+                    {
+                        cardToDeal = SerializeCardObj(drawnCard);
+                        _deck.DeckList.RemoveAt(index);
+                        suitedCardDraws = true;
+                        return cardToDeal;
+                    }
+                }
+                return cardToDeal;
+            }
+
         }
 
         private ICard SerializeCardObj(ICard card)
@@ -58,37 +97,10 @@ namespace Kristiania.PG3302_1.CustomCardGame
                 SpecialCard cardToDeal = JsonConvert.DeserializeObject<SpecialCard>(cardToJson);
                 return cardToDeal;
             }
-             
+
         }
 
-        public ICard DealSuitedCard()
-        {
-            ICard cardToDeal = new NullCard();
-            // Maybe a separate class for special cards with method amountOfSpecialCards() to place here?
-            if (_deck.DeckList.Count < 5)
-            {
-                moveDiscardDeckToNormalDeck();
-            }
-
-            bool suitedCardDraws = false;
-
-            while (!suitedCardDraws)
-            {
-                int index = _random.Next(_deck.DeckList.Count);
-                ICard drawnCard = _deck.DeckList[index];
-
-                if (drawnCard.GetType() == typeof(SuitedCard))
-                {
-                    cardToDeal = SerializeCardObj(drawnCard);
-                    _deck.DeckList.RemoveAt(index);
-                    suitedCardDraws = true;
-                    return cardToDeal;
-                }
-            }
-            return cardToDeal;
-        }
-
-        public void receiveDiscardedCard(ICard card)
+        public void ReceiveDiscardedCard(ICard card)
         {
             var newCardObj = SerializeCardObj(card);
             _discard.Add(newCardObj);
@@ -105,6 +117,7 @@ namespace Kristiania.PG3302_1.CustomCardGame
                     _discard.RemoveAt(i);
                 }
             }
+            Console.WriteLine("Dealer moved discard stack to deck");
         }
 
         
